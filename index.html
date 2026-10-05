@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aveniats — инициатива вокруг открытых технологий</title>
+<meta name="description" content="Aveniats объединяет и делает доступными открытые технологии. Первый продукт — AveniatsHub для Android.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #ffffff;
+    --fg: #0b0b0c;
+    --muted: #5c5c60;
+    --muted-2: #8a8a8f;
+    --line: #e4e4e6;
+    --line-strong: #c9c9cd;
+    --soft: #f6f6f7;
+    --radius: 6px;
+    --maxw: 1200px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: -0.005em;
+  }
+
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 32px; }
+
+  /* ---------- NAV ---------- */
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: saturate(180%) blur(14px);
+    -webkit-backdrop-filter: saturate(180%) blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 10px;
+    font-weight: 600; font-size: 16px; letter-spacing: -0.01em;
+    text-decoration: none; color: inherit;
+  }
+  .brand img { width: 26px; height: 26px; object-fit: contain; border-radius: 4px; }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a {
+    color: var(--muted); text-decoration: none;
+    font-size: 14px; font-weight: 500;
+    transition: color .15s;
+  }
+  .nav-links a:hover { color: var(--fg); }
+  .nav-cta {
+    display: inline-flex; align-items: center;
+    padding: 8px 16px;
+    background: var(--fg); color: #fff;
+    font-size: 13.5px; font-weight: 500;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background .15s;
+  }
+  .nav-cta:hover { background: #26262a; }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    padding: 120px 0 120px;
+    border-bottom: 1px solid var(--line);
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 0.7fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .hero h1 {
+    font-size: clamp(38px, 5vw, 62px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.06;
+    margin-bottom: 24px;
+  }
+  .hero p {
+    font-size: 17px;
+    color: var(--muted);
+    max-width: 560px;
+    margin-bottom: 40px;
+    line-height: 1.6;
+  }
+  .actions { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 22px;
+    font-family: inherit;
+    font-size: 14.5px; font-weight: 500;
+    text-decoration: none;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    transition: background .15s, border-color .15s, color .15s;
+    cursor: pointer;
+  }
+  .btn-primary { background: var(--fg); color: #fff; }
+  .btn-primary:hover { background: #26262a; }
+  .btn-ghost { background: #fff; color: var(--fg); border-color: var(--line-strong); }
+  .btn-ghost:hover { border-color: var(--fg); }
+
+  .hero-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .hero-logo img {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    opacity: 0.9;
+  }
+
+  /* ---------- SECTIONS ---------- */
+  section { padding: 88px 0; border-bottom: 1px solid var(--line); }
+  .section-head {
+    margin-bottom: 48px;
+    max-width: 720px;
+  }
+  h2 {
+    font-size: clamp(28px, 3.2vw, 38px);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+    margin-bottom: 12px;
+  }
+  .section-head p {
+    color: var(--muted);
+    font-size: 16px;
+    max-width: 620px;
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid var(--line);
+    border-left: 1px solid var(--line);
+  }
+  .about-card {
+    padding: 32px 28px;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: #fff;
+  }
+  .about-card .num {
+    font-size: 12px; font-weight: 600;
+    color: var(--muted-2);
+    letter-spacing: 0.08em;
+    margin-bottom: 20px;
+  }
+  .about-card h3 {
+    font-size: 17px; font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 10px;
+  }
+  .about-card p {
+    font-size: 14.5px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ---------- PRODUCT ---------- */
+  .product {
+    display: grid;
+    grid-template-columns: 1fr 0.85fr;
+    gap: 72px;
+    align-items: start;
+  }
+  .product-left h3 {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    margin-bottom: 16px;
+  }
+  .product-left p {
+    font-size: 16px;
+    color: var(--muted);
+    margin-bottom: 32px;
+    line-height: 1.6;
+  }
+  .feat {
+    list-style: none;
+    border-top: 1px solid var(--line);
+  }
+  .feat li {
+    display: grid;
+    grid-template-columns: 18px 1fr;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 14.5px;
+    color: var(--fg);
+    align-items: center;
+  }
+  .feat .mark {
+    color: var(--muted-2);
+    font-size: 12px;
+    text-align: center;
+  }
+
+  /* phone mockup со скриншотом */
+  .phone-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 32px 0 0;
+    position: sticky;
+    top: 96px;
+  }
+  .phone {
+    width: 260px;
+    height: 540px;
+    border: 8px solid var(--fg);
+    border-radius: 34px;
+    background: #fff;
+    position: relative;
+    box-shadow: 0 24px 48px -20px rgba(0,0,0,0.18), 0 8px 16px -8px rgba(0,0,0,0.08);
+    overflow: hidden;
+  }
+  .phone::before {
+    content: "";
+    position: absolute;
+    top: 10px; left: 50%; transform: translateX(-50%);
+    width: 100px; height: 20px;
+    background: var(--fg);
+    border-radius: 999px;
+    z-index: 2;
+  }
+  .phone-screen {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+  }
+
+  /* ---------- PRINCIPLES ---------- */
+  .principles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid var(--line);
+    border-left: 1px solid var(--line);
+  }
+  .p-card {
+    padding: 36px 28px;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: #fff;
+  }
+  .p-num {
+    font-size: 12px; font-weight: 600;
+    color: var(--muted-2);
+    letter-spacing: 0.08em;
+    margin-bottom: 24px;
+  }
+  .p-card h3 {
+    font-size: 17px; font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 10px;
+  }
+  .p-card p {
+    font-size: 14.5px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ---------- ROADMAP ---------- */
+  .roadmap { border-top: 1px solid var(--line); }
+  .rm-item {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 48px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: baseline;
+  }
+  .rm-date {
+    font-size: 13px; font-weight: 500;
+    color: var(--muted-2);
+    letter-spacing: 0.02em;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .rm-date.now { color: var(--fg); font-weight: 600; }
+  .rm-date.now::before {
+    content: ""; width: 6px; height: 6px;
+    border-radius: 50%; background: #16a34a;
+    flex: none;
+  }
+  .rm-desc h4 {
+    font-size: 16px; font-weight: 600;
+    letter-spacing: -0.01em; margin-bottom: 4px;
+  }
+  .rm-desc p {
+    font-size: 14.5px;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  /* ---------- CONTACT ---------- */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 72px;
+    align-items: start;
+  }
+  .contact-grid h2 { margin-bottom: 12px; }
+  .contact-grid .desc {
+    color: var(--muted);
+    font-size: 15.5px;
+    line-height: 1.6;
+    margin-bottom: 28px;
+  }
+  .contact-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 280px;
+  }
+  .contact-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    border: 1px solid var(--line-strong);
+    border-radius: 4px;
+    text-decoration: none;
+    color: var(--fg);
+    font-size: 14.5px;
+    font-weight: 500;
+    background: #fff;
+    transition: border-color .15s, background .15s;
+  }
+  .contact-btn:hover {
+    border-color: var(--fg);
+    background: var(--soft);
+  }
+  .contact-btn .arrow {
+    color: var(--muted-2);
+    transition: transform .15s, color .15s;
+  }
+  .contact-btn:hover .arrow {
+    color: var(--fg);
+    transform: translateX(3px);
+  }
+
+  .contact-list {
+    border-top: 1px solid var(--line);
+  }
+  .contact-item {
+    display: grid;
+    grid-template-columns: 180px 1fr auto;
+    gap: 24px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    transition: padding-left .15s;
+  }
+  .contact-item:hover {
+    padding-left: 4px;
+  }
+  .contact-item .label {
+    font-size: 13px;
+    color: var(--muted-2);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+  }
+  .contact-item .value {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--fg);
+    letter-spacing: -0.01em;
+    word-break: break-all;
+  }
+  .contact-item .arrow {
+    color: var(--muted-2);
+    font-size: 14px;
+    transition: transform .15s, color .15s;
+  }
+  .contact-item:hover .arrow {
+    color: var(--fg);
+    transform: translateX(4px);
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    padding: 32px 0 40px;
+    background: #fff;
+  }
+  .footer-inner {
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 20px;
+    font-size: 13.5px;
+    color: var(--muted);
+  }
+  .footer-inner .brand { font-size: 14px; }
+  .footer-links { display: flex; gap: 28px; }
+  .footer-links a {
+    color: var(--muted); text-decoration: none;
+    transition: color .15s;
+  }
+  .footer-links a:hover { color: var(--fg); }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 1000px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 48px; }
+    .hero-logo { justify-content: flex-start; }
+    .hero-logo img { width: 120px; height: 120px; }
+    .product { grid-template-columns: 1fr; gap: 48px; }
+    .phone-wrap { position: static; padding-top: 0; }
+    .contact-grid { grid-template-columns: 1fr; gap: 32px; }
+  }
+  @media (max-width: 800px) {
+    .wrap { padding: 0 20px; }
+    .about, .principles { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .hero { padding: 72px 0 64px; }
+    section { padding: 64px 0; }
+    .rm-item { grid-template-columns: 1fr; gap: 6px; padding: 20px 0; }
+    .contact-item { grid-template-columns: 1fr; gap: 6px; padding: 16px 0; }
+    .contact-item .arrow { display: none; }
+    .contact-buttons { max-width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a href="#" class="brand">
+      <img src="logo.png" alt="Aveniats">
+      <span>Aveniats</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#about">О нас</a></li>
+      <li><a href="#product">Продукты</a></li>
+      <li><a href="#principles">Принципы</a></li>
+      <li><a href="#roadmap">Планы</a></li>
+      <li><a href="#contact">Контакты</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Связаться</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" style="border-top:none;">
+  <div class="wrap hero-grid">
+    <div>
+      <h1>Объединяем открытые технологии в единую экосистему</h1>
+      <p>Aveniats — инициатива, которая собирает разрозненные открытые проекты и делает их доступными. Мы создаём разные продукты, начиная с мобильных инструментов.</p>
+      <div class="actions">
+        <a href="#product" class="btn btn-primary">Наши продукты</a>
+        <a href="#about" class="btn btn-ghost">О инициативе</a>
+      </div>
+    </div>
+
+    <div class="hero-logo">
+      <img src="logo.png" alt="Aveniats">
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Направления инициативы</h2>
+      <p>Aveniats — это не один продукт, а набор инициатив вокруг доступности открытых технологий.</p>
+    </div>
+
+    <div class="about">
+      <div class="about-card">
+        <div class="num">01</div>
+        <h3>Продукты</h3>
+        <p>Разные приложения и сервисы, которые делают открытые технологии удобными для конечного пользователя. Первый шаг — AveniatsHub.</p>
+      </div>
+      <div class="about-card">
+        <div class="num">02</div>
+        <h3>Объединение</h3>
+        <p>Собираем разрозненные проекты и решения в удобные каталоги, платформы и экосистему.</p>
+      </div>
+      <div class="about-card">
+        <div class="num">03</div>
+        <h3>Сообщество</h3>
+        <p>Открытая разработка, документация и поддержка тех, кто пользуется и строит на открытых технологиях.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT -->
+<section id="product">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Первый продукт — AveniatsHub</h2>
+      <p>Android-приложение, которое собирает открытые AI-модели в одном месте: магазин, чат, настройки. Всё работает прямо на смартфоне.</p>
+    </div>
+
+    <div class="product">
+      <div class="product-left">
+        <h3>AveniatsHub</h3>
+        <p>Единая точка входа для скачивания, запуска и управления моделями прямо на устройстве. Без облаков, без подписок, без лишнего.</p>
+        <ul class="feat">
+          <li><span class="mark">—</span> Каталог моделей по разным сегментам и категориям</li>
+          <li><span class="mark">—</span> Встроенный магазин с описаниями, размерами и версиями</li>
+          <li><span class="mark">—</span> Чат-интерфейс для взаимодействия с моделями</li>
+          <li><span class="mark">—</span> Гибкие настройки: параметры, память, офлайн-режим</li>
+          <li><span class="mark">—</span> Локальное выполнение — данные не покидают устройство</li>
+        </ul>
+      </div>
+
+      <div class="phone-wrap">
+        <div class="phone">
+          <img src="screen.png" alt="AveniatsHub — скриншот приложения" class="phone-screen">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRINCIPLES -->
+<section id="principles">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Как мы строим</h2>
+      <p>Три вещи, на которых держится инициатива.</p>
+    </div>
+
+    <div class="principles">
+      <div class="p-card">
+        <div class="p-num">01</div>
+        <h3>Открытость</h3>
+        <p>Работаем с открытыми проектами и возвращаем сообществу код, инструменты и знания.</p>
+      </div>
+      <div class="p-card">
+        <div class="p-num">02</div>
+        <h3>Суверенитет</h3>
+        <p>Разработка, работающая без зависимости от внешних облачных сервисов. Данные — на устройстве.</p>
+      </div>
+      <div class="p-card">
+        <div class="p-num">03</div>
+        <h3>Доступность</h3>
+        <p>Технологии должны быть простыми. Снижаем порог входа, чтобы они были полезны каждому.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section id="roadmap">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Куда движется Aveniats</h2>
+      <p>Развиваем инициативу и продукты итеративно, шаг за шагом.</p>
+    </div>
+
+    <div class="roadmap">
+      <div class="rm-item">
+        <div class="rm-date now">Уже сделано</div>
+        <div class="rm-desc">
+          <h4>AveniatsHub для Android</h4>
+          <p>Первый продукт разработан: каталог, магазин, чат и настройки. Доступен для пользователей.</p>
+        </div>
+      </div>
+      <div class="rm-item">
+        <div class="rm-date">Следующий шаг</div>
+        <div class="rm-desc">
+          <h4>Собственная линейка моделей SHARF</h4>
+          <p>Начинаем разработку собственных моделей под брендом SHARF — расширение экосистемы Aveniats.</p>
+        </div>
+      </div>
+      <div class="rm-item">
+        <div class="rm-date">После SHARF</div>
+        <div class="rm-desc">
+          <h4>AveniatsHub для компьютеров</h4>
+          <p>Расширяем AveniatsHub за пределы Android — версия для десктопных платформ.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="wrap">
+    <div class="contact-grid">
+      <div>
+        <h2>Связаться с нами</h2>
+        <p class="desc">Открыты к сотрудничеству, вопросам и предложениям. Выберите удобный канал — отвечаем в порядке поступления.</p>
+
+        <div class="contact-buttons">
+          <a href="mailto:aveniats@gmail.com" class="contact-btn">
+            <span>Написать на почту</span>
+            <span class="arrow">→</span>
+          </a>
+          <a href="https://t.me/Aveniats" target="_blank" rel="noopener" class="contact-btn">
+            <span>Перейти в Telegram</span>
+            <span class="arrow">→</span>
+          </a>
+          <a href="https://t.me/AveniatsChat" target="_blank" rel="noopener" class="contact-btn">
+            <span>Написать в Support</span>
+            <span class="arrow">→</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="contact-list">
+        <a href="mailto:aveniats@gmail.com" class="contact-item">
+          <span class="label">Почта</span>
+          <span class="value">aveniats@gmail.com</span>
+          <span class="arrow">→</span>
+        </a>
+        <a href="https://t.me/Aveniats" target="_blank" rel="noopener" class="contact-item">
+          <span class="label">Telegram канал</span>
+          <span class="value">t.me/Aveniats</span>
+          <span class="arrow">→</span>
+        </a>
+        <a href="https://t.me/AveniatsChat" target="_blank" rel="noopener" class="contact-item">
+          <span class="label">Telegram Support</span>
+          <span class="value">t.me/AveniatsChat</span>
+          <span class="arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap footer-inner">
+    <a href="#" class="brand">
+      <img src="logo.png" alt="" style="width:20px;height:20px;border-radius:3px;">
+      <span>Aveniats</span>
+    </a>
+    <div class="footer-links">
+      <a href="#about">О нас</a>
+      <a href="#product">Продукты</a>
+      <a href="#roadmap">Планы</a>
+      <a href="#contact">Контакты</a>
+    </div>
+    <div>© 2026 Aveniats</div>
+  </div>
+</footer>
+
+</body>
+</html>
